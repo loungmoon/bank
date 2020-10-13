@@ -23,9 +23,7 @@ public class BankServiceDB implements BankService {
         List<Transaction> transactionList = new ArrayList<Transaction>();
         double totalAmount = 0.0;
         try {
-            Transaction t = em.getReference(Transaction.class, bank_account_id);
-            Transaction transaction = new Transaction(t.getAmount(),t.getTransactionType(),t.getBankAccountId());
-            transactionList.add(transaction);
+            transactionList.add(em.find(Transaction.class, bank_account_id));
         }catch (Exception ex){
             System.out.println("Error");
         }
@@ -49,7 +47,7 @@ public class BankServiceDB implements BankService {
     }
 
     public BankAccount createAccount(String accountHolder, String accountType, double balance) {
-       em.getTransaction().begin();
+        em.getTransaction().begin();
         int accountNo = (int) (Math.random() * 100000000);
         BankAccount bank = new BankAccount();
 

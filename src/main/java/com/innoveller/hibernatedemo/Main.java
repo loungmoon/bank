@@ -13,12 +13,12 @@ public class Main {
 //        em.getTransaction().begin();
 
         BankServiceDB bank = new BankServiceDB();
-        BankAccount bankAccount=bank.findAccount(32L);
-
-
+        BankAccount bankAccount=bank.findAccount(30L);
+        BankAccount bankAccount1 = bank.findAccount(31L);
+        bank.transfer(bankAccount,bankAccount1,10);
 
         //System.out.println(bankAccount.getAccountType());
-        //BankAccount account=bank.createAccount("Khan Aye","DEPOSIT",10000);
+        //BankAccount account=bank.createAccount("Khan Aye","DEPOSIT",200000);
 
        // bank.deposit(bankAccount,100);
        // em.getTransaction().commit();
