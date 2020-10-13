@@ -23,6 +23,15 @@ public class Transaction {
     @JoinColumn(name = "bank_account_id")
     public BankAccount bankAccountId;
 
+    public Transaction() {
+    }
+
+    public Transaction(double amount, String transactionType, BankAccount bankAccountId) {
+        this.amount = amount;
+        this.transactionType = transactionType;
+        this.bankAccountId = bankAccountId;
+    }
+
     public Date getTransactionDate() {
         long millis=System.currentTimeMillis();
         java.sql.Date transactionDate=new java.sql.Date(millis);
@@ -56,6 +65,4 @@ public class Transaction {
     public void setTransactionType(String transactionType) {
         this.transactionType = transactionType;
     }
-
-
 }
