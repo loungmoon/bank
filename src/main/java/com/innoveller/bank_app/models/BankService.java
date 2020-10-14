@@ -1,11 +1,8 @@
-package com.innoveller.hibernatedemo.models;
-
-import java.time.LocalDate;
+package com.innoveller.bank_app.models;
 import java.util.Date;
 import java.util.List;
 
 public interface BankService {
-
     BankAccount findAccount(Long id);
     BankAccount createAccount(String accountHolder, String accountType,double balance);
     void deposit(BankAccount account,double amount);
@@ -13,5 +10,5 @@ public interface BankService {
     void transfer(BankAccount fromAccount,BankAccount toAccount,double amount);
     List<Transaction> getAccountTransactionList(BankAccount account);
     void reportOfDateRange(Date from_date, Date to_date);
-    void reportForOneDay(LocalDate date);
+    void reportForOneDay(Date date);
 }

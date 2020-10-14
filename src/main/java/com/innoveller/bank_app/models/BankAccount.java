@@ -1,5 +1,4 @@
-package com.innoveller.hibernatedemo.models;
-
+package com.innoveller.bank_app.models;
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -27,16 +26,8 @@ public class BankAccount {
         return id;
     }
 
-    public int getAccountNo() {
-        return AccountNo;
-    }
-
     public void setAccountNo(int accountNo) {
         AccountNo = accountNo;
-    }
-
-    public String getAccountHolder() {
-        return accountHolder;
     }
 
     public void setAccountHolder(String accountHolder) {
@@ -54,7 +45,7 @@ public class BankAccount {
         long millis=System.currentTimeMillis();
         java.sql.Date date=new java.sql.Date(millis);
         return date;
-    }
+        }
 
     public void setOpendate(Date opendate) {
         this.opendate = opendate;

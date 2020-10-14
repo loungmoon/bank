@@ -1,5 +1,4 @@
-package com.innoveller.hibernatedemo.models;
-
+package com.innoveller.bank_app.models;
 import javax.persistence.*;
 import java.util.Date;
 @Entity
@@ -24,12 +23,6 @@ public class Transaction {
     public BankAccount bankAccount;
 
     public Transaction() {
-    }
-
-    public Transaction(double amount, String transactionType, BankAccount bankAccount) {
-        this.amount = amount;
-        this.transactionType = transactionType;
-        this.bankAccount = bankAccount;
     }
 
     public Date getTransactionDate() {
