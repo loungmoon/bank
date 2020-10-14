@@ -47,6 +47,9 @@ public class Main {
 
             bank.reportOfDateRange(from_date_cal.getTime(),to_date_cal.getTime());
 
+
+            double balance = bank.calculatedTotalBalance(2L);
+            System.out.println(balance);
         }
     }
 }
