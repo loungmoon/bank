@@ -1,8 +1,7 @@
 package com.innoveller.hibernatedemo.models;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class BankServiceDB implements BankService {
@@ -18,14 +17,15 @@ public class BankServiceDB implements BankService {
         em.persist(transaction);
     }
 
-
     public double calculatedTotalBalance(Long bank_account_id) {
-        List<Transaction> transactionList = new ArrayList<Transaction>();
+        List<Transaction> transactionList = new ArrayList<>();
         double totalAmount = 0.0;
         try {
-            transactionList.add(em.find(Transaction.class, bank_account_id));
+            Query query =em.createQuery("FROM Transaction  WHERE bankAccount.id = ?1");
+            query.setParameter(1,bank_account_id);
+            transactionList  =  query.getResultList();
         }catch (Exception ex){
-            System.out.println("Error");
+            System.out.println("Exception Error !!");
         }
             for (Transaction transaction : transactionList) {
                 if (transaction.getTransactionType().equals("DEPOSIT")) {
@@ -36,7 +36,6 @@ public class BankServiceDB implements BankService {
                     totalAmount -= transaction.getAmount();
                 }
             }
-
         return totalAmount;
     }
 
@@ -59,7 +58,6 @@ public class BankServiceDB implements BankService {
 
         saveTransaction(balance,bank.getAccountType(),bank);
         em.getTransaction().commit();
-//        em.close();
         return  bank;
     }
 
@@ -75,9 +73,11 @@ public class BankServiceDB implements BankService {
             double totalBalance = calculatedTotalBalance(account.getId());
             if (totalBalance > amount) {
                 saveTransaction(amount, "WITHDRAW", account);
+            }else{
+                System.out.println("Cannot Withdraw !! You balance have "+totalBalance);
             }
         }catch (Exception ex){
-            System.out.println("error");
+            System.out.println("Exception Error !!");
         }
         em.getTransaction().commit();
         }
@@ -90,10 +90,52 @@ public class BankServiceDB implements BankService {
                 saveTransaction(amount, "TRANSFER", fromAccount);
                 saveTransaction(amount, "DEPOSIT", toAccount);
             }
+            else {
+                System.out.println("Cannot Transfer !! You balance have "+totalAmount);
+            }
         } catch (Exception e) {
-            System.out.println("Cannot Transfer");
+            System.out.println("Exception Error !!");
         }em.getTransaction().commit();
-
     }
 
+    public List<Transaction> getAccountTransactionList(BankAccount account) {
+        List<Transaction> transactionList = new ArrayList<>();
+        try {
+            Query query =em.createQuery("FROM Transaction  WHERE bankAccount.id = ?1");
+            query.setParameter(1,account.getId());
+            transactionList  =  query.getResultList();
+        }  catch (Exception e) {
+                System.out.println("Exception Error !!");
+        }
+        return transactionList;
+    }
+
+//    public void reportOfDateRange(Date from_date, Date to_date) {
+//        List<Transaction> transactionList = new ArrayList<Transaction>();
+//        try {
+//            Query query =em.createQuery("SELECT t FROM Transaction t WHERE t.bankAccount.id = ?1");
+//            query.setParameter(1,account.getId());
+//            transactionList  =  query.getResultList();
+//        } catch (Exception ex) {
+//                System.out.println("Exception Error !!");
+//            }
+//        for(Transaction transaction:transactionList){
+//            System.out.println("Transaction Type :"+transaction.getTransactionType() + " Amount : " + transaction.getAmount()+" Bank_Account_ID: "+transaction.getBankAccountId());
+//        }
+   // }
+
+    public void reportForOneDay(Date date) {
+        List<Transaction> transactionList = new ArrayList<>();
+        try {
+            Query query = em.createQuery("from Transaction where  DATE(transactionDate)= DATE(:date) ");
+            query.setParameter("date", date);
+            transactionList = query.getResultList();
+
+        } catch (Exception ex) {
+                System.out.println("Exception Error !!");
+        }
+        for(Transaction transaction:transactionList){
+            System.out.println("Transaction Type :"+transaction.getTransactionType() + " Amount : " + transaction.getAmount()+" Bank_Account_ID: "+transaction.getBankAccount());
+        }
+    }
 }

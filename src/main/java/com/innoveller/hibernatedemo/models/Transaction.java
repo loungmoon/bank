@@ -11,6 +11,7 @@ public class Transaction {
     private Long id;
 
     @Column(name = "transaction_date")
+    @Temporal(TemporalType.DATE)
     private Date transactionDate;
 
     @Column(name = "amount")
@@ -21,15 +22,15 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn(name = "bank_account_id")
-    public BankAccount bankAccountId;
+    public BankAccount bankAccount;
 
     public Transaction() {
     }
 
-    public Transaction(double amount, String transactionType, BankAccount bankAccountId) {
+    public Transaction(double amount, String transactionType, BankAccount bankAccount) {
         this.amount = amount;
         this.transactionType = transactionType;
-        this.bankAccountId = bankAccountId;
+        this.bankAccount = bankAccount;
     }
 
     public Date getTransactionDate() {
@@ -54,12 +55,12 @@ public class Transaction {
         return transactionType;
     }
 
-    public void setBankAccountId(BankAccount bankAccountId) {
-        this.bankAccountId = bankAccountId;
+    public void setBankAccountId(BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
     }
 
-    public BankAccount getBankAccountId() {
-        return bankAccountId;
+    public BankAccount getBankAccount() {
+        return bankAccount;
     }
 
     public void setTransactionType(String transactionType) {
