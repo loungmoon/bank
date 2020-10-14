@@ -12,6 +12,6 @@ public interface BankService {
     void withdraw(BankAccount account,double amount);
     void transfer(BankAccount fromAccount,BankAccount toAccount,double amount);
     List<Transaction> getAccountTransactionList(BankAccount account);
-    //void reportOfDateRange(Date from_date, Date to_date);
-    void reportForOneDay(Date date);
+    void reportOfDateRange(Date from_date, Date to_date);
+    void reportForOneDay(LocalDate date);
 }

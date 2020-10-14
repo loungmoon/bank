@@ -1,5 +1,6 @@
 package com.innoveller.hibernatedemo.models;
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -110,32 +111,35 @@ public class BankServiceDB implements BankService {
         return transactionList;
     }
 
-//    public void reportOfDateRange(Date from_date, Date to_date) {
-//        List<Transaction> transactionList = new ArrayList<Transaction>();
-//        try {
-//            Query query =em.createQuery("SELECT t FROM Transaction t WHERE t.bankAccount.id = ?1");
-//            query.setParameter(1,account.getId());
-//            transactionList  =  query.getResultList();
-//        } catch (Exception ex) {
-//                System.out.println("Exception Error !!");
-//            }
-//        for(Transaction transaction:transactionList){
-//            System.out.println("Transaction Type :"+transaction.getTransactionType() + " Amount : " + transaction.getAmount()+" Bank_Account_ID: "+transaction.getBankAccountId());
-//        }
-   // }
-
-    public void reportForOneDay(Date date) {
+    public void reportOfDateRange(Date from_date, Date to_date) {
         List<Transaction> transactionList = new ArrayList<>();
         try {
-            Query query = em.createQuery("from Transaction where  DATE(transactionDate)= DATE(:date) ");
-            query.setParameter("date", date);
+            Query query =em.createQuery("from Transaction where transactionDate BETWEEN :fromdate and :todate");
+            query.setParameter("fromdate", from_date);
+            query.setParameter("todate", to_date);
             transactionList = query.getResultList();
 
+        } catch (Exception ex) {
+                System.out.println("Exception Error !!");
+            }
+        for(Transaction transaction:transactionList){
+            System.out.println("Transaction Type :"+transaction.getTransactionType() + " Amount : " + transaction.getAmount()+" Bank_Account_ID: "+transaction.getBankAccount());
+        }
+    }
+
+    public void reportForOneDay(LocalDate date) {
+        em.getTransaction().begin();
+        List<Transaction> transactionList = new ArrayList<>();
+        try {
+            Query query = em.createQuery("from Transaction where transactionDate= ?1");
+            query.setParameter(1,date);
+            transactionList = query.getResultList();
         } catch (Exception ex) {
                 System.out.println("Exception Error !!");
         }
         for(Transaction transaction:transactionList){
             System.out.println("Transaction Type :"+transaction.getTransactionType() + " Amount : " + transaction.getAmount()+" Bank_Account_ID: "+transaction.getBankAccount());
         }
+        em.getTransaction().commit();
     }
 }

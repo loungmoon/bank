@@ -3,6 +3,9 @@ import com.innoveller.hibernatedemo.models.BankAccount;
 import com.innoveller.hibernatedemo.models.BankServiceDB;
 import com.innoveller.hibernatedemo.models.Transaction;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 public class Main {
@@ -16,7 +19,7 @@ public class Main {
 //            System.out.println(transaction.getTransactionType() + " Amount " + transaction.getAmount() + " At Date" + transaction.getTransactionDate());
 
             // BankAccount bankAccount=bank.findAccount(34L);
-             bank.reportForOneDay(new Date(2020,10,13));
+           bank.reportForOneDay(LocalDate.of(2020,10,13));
             //bank.deposit(bankAccount,20000);
             //bank.withdraw(bankAccount,130000);
             // BankAccount bankAccount1 = bank.findAccount(31L);

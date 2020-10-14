@@ -11,7 +11,6 @@ public class Transaction {
     private Long id;
 
     @Column(name = "transaction_date")
-    @Temporal(TemporalType.DATE)
     private Date transactionDate;
 
     @Column(name = "amount")
